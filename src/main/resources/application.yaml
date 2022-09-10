@@ -1,0 +1,11 @@
+spring:
+    datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS session;
+    username: sa
+    password: 123
+    driverClassName: org.h2.Driver
+    h2:
+        console.enabled: true
+
+jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect

@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ciszekxd
+
+  -  changeSet:
+       id:  2
+       author:  ciszekxd
+       changes:
+         -  createTable:
+              tableName:  session
+              columns:
+                -  column:
+                     name:  id
+                     type:  Long
+                     autoIncrement:  true
+                     constraints:
+                       primaryKey:  true
+                       nullable:  false
