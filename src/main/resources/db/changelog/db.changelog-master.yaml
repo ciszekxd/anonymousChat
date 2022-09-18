@@ -1,19 +1,72 @@
 databaseChangeLog:
-  - changeSet:
-      id: 1
-      author: ciszekxd
-
   -  changeSet:
-       id:  2
+       id:  1
        author:  ciszekxd
+       runAlways: true
        changes:
-         -  createTable:
-              tableName:  session
+         - createTable:
+              tableName: user_list
               columns:
-                -  column:
-                     name:  id
-                     type:  Long
-                     autoIncrement:  true
-                     constraints:
-                       primaryKey:  true
-                       nullable:  false
+                - column:
+                   name:  id
+                   type:  Long
+                   autoIncrement:  true
+                   constraints:
+                     primaryKey:  true
+                     nullable:  false
+                - column:
+                    name: hesh
+                    type: varchar(200)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: status
+                    type: varchar(200)
+                    constraints:
+                      check: status in ('online', 'offline')
+
+         - createTable:
+             tableName: message
+             columns:
+               - column:
+                   name: id
+                   type: Long
+                   autoIncrement: true
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: text
+                   type: varchar(200)
+               - column:
+                   name: sender
+                   type: varchar(200)
+                   constraints:
+                     foreignKeyName: fk_user_sender
+                     references: user_list(id)
+               - column:
+                   name: timestamp
+                   type: timestamp
+               - column:
+                   name: conversation_code
+                   type: varchar(50)
+
+         - createTable:
+             tableName: conversation
+             columns:
+               - column:
+                   name: id
+                   type: Long
+                   autoIncrement: true
+                   constraints:
+                       primaryKey: true
+                       nullable: false
+               - column:
+                   name: user_id
+                   type: Long
+                   constraints:
+                     foreignKeyName: fk_user_user_id
+                     references: user_list(id)
+               - column:
+                   name: conversation_code
+                   type: varchar(50)
