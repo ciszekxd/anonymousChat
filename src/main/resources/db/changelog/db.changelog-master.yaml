@@ -15,7 +15,7 @@ databaseChangeLog:
                      primaryKey:  true
                      nullable:  false
                 - column:
-                    name: hesh
+                    name: hash
                     type: varchar(200)
                     constraints:
                       nullable: false

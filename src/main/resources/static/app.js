@@ -1,4 +1,6 @@
 var stompClient = null;
+var serverPath = "/app/hello";
+var userId = null;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -19,9 +21,27 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/message-channel/content', function (content) {
-            showGreeting(JSON.parse(content.body).name);
+            messageProcessor(JSON.parse(content.body));
         });
+        stompClient.send(serverPath, {}, JSON.stringify({'status': 'new_user'}));
     });
+}
+
+function messageProcessor(content){
+    console.log(content);
+    if (content.type === "status"){
+        handleStatus(content.body)
+    }else if(content.type === "message"){
+        displayMessage();
+    }
+}
+
+function displayMessage(){
+
+}
+
+function handleStatus(status){
+
 }
 
 function disconnect() {
