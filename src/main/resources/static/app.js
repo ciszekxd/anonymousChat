@@ -29,10 +29,13 @@ function connect() {
 
 function messageProcessor(content){
     console.log(content);
-    if (content.type === "status"){
-        handleStatus(content.body)
+    if (content.type === "status") {
+        handleStatus(content)
     }else if(content.type === "message"){
         displayMessage();
+    }else if(content.type === "new_user_id"){
+        userId = content.user_id;
+        console.log("new user id set: " + userId)
     }
 }
 
@@ -40,7 +43,7 @@ function displayMessage(){
 
 }
 
-function handleStatus(status){
+function handleStatus(content){
 
 }
 

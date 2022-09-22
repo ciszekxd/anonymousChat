@@ -1,5 +1,6 @@
 package web.chat.anonymousChat.controllers;
 
+import liquibase.pro.packaged.S;
 import org.json.JSONObject;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -25,19 +26,29 @@ public class MessageController {
     @SendTo("/message-channel/content")
     public String doMessaging(@Payload String body){
         JSONObject json = new JSONObject(body);
+        JSONObject toReturn;
 
         switch (json.getString("status")){
-            case "new_user" -> handleNewUser();
+            case "new_user" -> toReturn = handleNewUser();
+            default -> throw new IllegalStateException("Unexpected value: " + json.getString("status"));
         }
 
 
-
-        return body;
+        return toReturn.toString();
     }
 
-    private void handleNewUser(){
-        UserListDAO userListDAO = new UserListDAO(0,UUID.randomUUID().toString(), UserStatusEnum.Free);
+    private JSONObject handleNewUser(){
+        String uuid = UUID.randomUUID().toString();
+
+        UserListDAO userListDAO = new UserListDAO(0, uuid, UserStatusEnum.Free);
+
         userListRepository.save(userListDAO);
+
+        JSONObject toReturn = new JSONObject();
+        toReturn.put("type", "new_user_id");
+        toReturn.put("user_id", uuid);
+
+        return toReturn;
     }
 
 }
